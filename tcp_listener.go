@@ -2,11 +2,18 @@ package firehose_server
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net"
+	"os"
 )
 
-func handleTCPConnection(c net.Conn) {
+type TCPServer struct {
+	Address string
+	Writer  MsgWriter
+}
+
+func (s *TCPServer) handleTCPConnection(c net.Conn) {
 	decoder := json.NewDecoder(c)
 	var msg Msg
 	for decoder.More() {
@@ -14,13 +21,13 @@ func handleTCPConnection(c net.Conn) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		//fmt.Printf("-> %v\n", msg)
-		DumpCSV(msg)
+		s.Writer(msg)
 	}
 }
-func TCPRun() {
-	listener, err := net.Listen("tcp", ":7531")
-	println("Listening ... ")
+
+func (s *TCPServer) Run() {
+	listener, err := net.Listen("tcp", s.Address)
+	fmt.Fprintf(os.Stderr, "Listening on %s\n", s.Address)
 
 	if err != nil {
 		log.Fatal(err)
@@ -33,7 +40,7 @@ func TCPRun() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		println("received connection")
-		go handleTCPConnection(con)
+		fmt.Fprintf(os.Stderr, "Received connection: %v\n", con)
+		go s.handleTCPConnection(con)
 	}
 }

@@ -3,18 +3,28 @@ package firehose_server
 import (
 	"encoding/csv"
 	"fmt"
-	"os"
+	"io"
 	"strconv"
 	"time"
 )
 
-var writer *csv.Writer = csv.NewWriter(os.Stdout)
+type MsgWriter func(Msg)
+
+type CSVMsgWriter struct {
+	writer *csv.Writer
+}
+
+func NewCSVWriter(w io.Writer) *CSVMsgWriter {
+	writer := new(CSVMsgWriter)
+	writer.writer = csv.NewWriter(w)
+	return writer
+}
 
 func uInt32ToA(v uint32) string {
 	return strconv.FormatInt(int64(v), 10)
 }
 
-func DumpCSV(msg Msg) {
+func (w *CSVMsgWriter) DumpCSV(msg Msg) {
 	_time := time.Now().Unix()
 	time := strconv.FormatInt(_time, 10)
 	ts := uInt32ToA(msg.Timestamp)
@@ -25,7 +35,7 @@ func DumpCSV(msg Msg) {
 	record := []string{
 		time, ts, dev, tag, value,
 	}
-
-	writer.Write(record)
+	w.writer.Write(record)
+	w.writer.Flush()
 
 }
