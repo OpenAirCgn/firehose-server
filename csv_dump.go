@@ -11,12 +11,14 @@ import (
 type MsgWriter func(Msg)
 
 type CSVMsgWriter struct {
-	writer *csv.Writer
+	writer  *csv.Writer
+	msgChan <-chan Msg
 }
 
-func NewCSVWriter(w io.Writer) *CSVMsgWriter {
+func NewCSVWriter(w io.Writer, ch <-chan Msg) *CSVMsgWriter {
 	writer := new(CSVMsgWriter)
 	writer.writer = csv.NewWriter(w)
+	writer.msgChan = ch
 	return writer
 }
 
@@ -36,6 +38,16 @@ func (w *CSVMsgWriter) DumpCSV(msg Msg) {
 		time, ts, dev, tag, value,
 	}
 	w.writer.Write(record)
-	w.writer.Flush()
+}
 
+func (w *CSVMsgWriter) Run(doneChan chan<- bool) {
+	for {
+		msg, ok := <-w.msgChan
+		if !ok {
+			w.writer.Flush()
+			break
+		}
+		w.DumpCSV(msg)
+	}
+	doneChan <- true
 }

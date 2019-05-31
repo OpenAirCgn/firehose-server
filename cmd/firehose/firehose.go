@@ -31,9 +31,12 @@ func main() {
 		flag.Usage()
 		os.Exit(0)
 	}
+	msgChan := make(chan firehose.Msg)
+	doneChan := make(chan bool)
+
 	var w *firehose.CSVMsgWriter
 	if outfile == defaultOutFile {
-		w = firehose.NewCSVWriter(os.Stdout)
+		w = firehose.NewCSVWriter(os.Stdout, msgChan)
 	} else {
 		f, err := os.OpenFile(outfile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
@@ -42,11 +45,16 @@ func main() {
 			os.Exit(1)
 		}
 		defer f.Close()
-		w = firehose.NewCSVWriter(f)
+		w = firehose.NewCSVWriter(f, msgChan)
 	}
 	server := firehose.TCPServer{
 		Address: addr,
-		Writer:  w.DumpCSV,
+		MsgChan: msgChan,
 	}
-	server.Run()
+	go server.Run(doneChan)
+	go w.Run(doneChan)
+
+	for i := 0; i != 2; i++ {
+		<-doneChan
+	}
 }
