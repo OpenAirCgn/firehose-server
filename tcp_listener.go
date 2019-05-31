@@ -17,14 +17,23 @@ func (s *TCPServer) handleTCPConnection(c net.Conn) {
 	defer c.Close()
 	decoder := json.NewDecoder(c)
 	var msg Msg
+	networkMsg := Msg{Tag: OA_Network_Events, Value: uint32(CONNECT)}
+
 	for decoder.More() {
 		err := decoder.Decode(&msg)
 		if err != nil {
 			log.Print(err)
 			return
 		}
+		if networkMsg.Value == uint32(CONNECT) {
+			networkMsg.DeviceId = msg.DeviceId
+			s.MsgChan <- networkMsg
+			networkMsg.Value = uint32(DISCONNECT)
+		}
 		s.MsgChan <- msg
 	}
+
+	s.MsgChan <- networkMsg
 }
 
 func (s *TCPServer) Run(doneChan chan<- bool) {

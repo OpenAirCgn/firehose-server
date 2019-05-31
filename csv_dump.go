@@ -31,11 +31,14 @@ func (w *CSVMsgWriter) DumpCSV(msg Msg) {
 	time := strconv.FormatInt(_time, 10)
 	ts := uInt32ToA(msg.Timestamp)
 	dev := msg.DeviceId
-	tag := fmt.Sprintf("0x%02x", msg.Tag)
+	tag := fmt.Sprintf("0x%08x", uint32(msg.Tag))
 	value := fmt.Sprintf("0x%08x", msg.Value)
 
+	tag_annotation := msg.Tag.String()
+	value_annotation := AnnotateValue(msg)
+
 	record := []string{
-		time, ts, dev, tag, value,
+		time, ts, dev, tag, value, tag_annotation, value_annotation,
 	}
 	w.writer.Write(record)
 }
