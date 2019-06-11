@@ -1,4 +1,4 @@
-#Introduction
+# Introduction
 
 This software is intended to receive all measurements from an OpenAir
 device for testing and calibration. This is more data than would be
@@ -17,23 +17,16 @@ The software is a command line program with the following options
 $ ./firehose -help
 
 Usage of ./firehose:
-
   -a string
-
   -addr string
-
         address for server to listen on (default ":7531")
 
   -h    
-
   -help
-
         print usage
 
   -o string
-
   -outfile string
-
         filename to save output to (default "-")
 
 ````
@@ -75,6 +68,12 @@ value(hex) | All sensor reading are currently stored as unsigned 32bit values. T
 value(dec) | This field is a decimal representation of the sensor value. Depending on the nature of the data returned by the sensor, this may not be a sensible representation.
 tag_annotation | Human readable description of the tag
 value_annotation | Human readable interpretation of the value for convenience.
+
+
+In addition to the tagged data received from the OpenAir Device, the firehose-server logs some network events and derived data using the following pseudo-tags:
+
+Tag | Description
+----|------------
 OA_Network_Events | Value CONNECT and DISCONNECT signify time the OpenAir device established a connection or the connection was lost.
 OA_AlphaCalc_1 … OA_Alpha_Calc_4 | Precalculated (server side) voltage of the ADC reading. This value is calculated by the formula:
 
