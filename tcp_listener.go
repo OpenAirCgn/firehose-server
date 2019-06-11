@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"os/signal"
 )
 
 type TCPServer struct {
@@ -45,11 +46,20 @@ func (s *TCPServer) Run(doneChan chan<- bool) {
 	}
 	defer listener.Close()
 
+	go func() {
+		c := make(chan os.Signal, 1)
+		signal.Notify(c, os.Interrupt)
+
+		<-c
+		println("INTERRUPT")
+		listener.Close()
+	}()
+
 	var con net.Conn
 	for {
 		con, err = listener.Accept()
 		if err != nil {
-			log.Print(err)
+			log.Printf("%v", err)
 			close(s.MsgChan)
 			doneChan <- true
 			return

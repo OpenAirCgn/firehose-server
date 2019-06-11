@@ -1,0 +1,3 @@
+for os in darwin linux windows; do
+	GOOS=${os} GOARC=amd64 go build -o firehose.${os} cmd/firehose/firehose.go 
+done

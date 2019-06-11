@@ -51,6 +51,9 @@ func main() {
 		Address: addr,
 		MsgChan: msgChan,
 	}
+
+	println("Welcome to Firehose! Press Ctl-c to end")
+
 	go server.Run(doneChan)
 	go w.Run(doneChan)
 
