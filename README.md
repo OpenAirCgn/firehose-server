@@ -7,7 +7,7 @@ useful in most cases, hence the name 'firehose'.
 
 ## Running
 
-This software is a commandline utility. Precompiled versions of the
+This software is a commandline utility. [Precompiled versions](https://github.com/OpenAirCgn/firehose-server/releases) of the
 binary for Linux, MacOS and Windows plattform are available on the
 github releases page.
 
@@ -82,4 +82,4 @@ V = (ALPHA(X-1) - ALPHA(X)) * ADC_CONST
 
 For X in 2, 4, 6, 8
 ADC_CONST = 0.000031356811523
-```1`
+````
