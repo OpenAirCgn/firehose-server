@@ -9,36 +9,40 @@ type Tag uint32
 type NetworkEvent uint32
 
 const (
-	OA_Time             Tag = iota
-	OA_Alpha_1          Tag = iota
-	OA_Alpha_2          Tag = iota
-	OA_Alpha_3          Tag = iota
-	OA_Alpha_4          Tag = iota
-	OA_Alpha_5          Tag = iota
-	OA_Alpha_6          Tag = iota
-	OA_Alpha_7          Tag = iota
-	OA_Alpha_8          Tag = iota
-	OA_BME_Pressure_Raw Tag = iota
-	OA_BME_Pressure     Tag = iota
-	OA_BME_Temp_Raw     Tag = iota
-	OA_BME_Temp         Tag = iota
-	OA_BME_Humidity_Raw Tag = iota
-	OA_BME_Humidity     Tag = iota
-	OA_BME_SDS_PM25     Tag = iota
-	OA_BME_SDS_PM10     Tag = iota
-	OA_SI7006_Temp_Raw  Tag = iota
-	OA_SI7006_Temp      Tag = iota
-	OA_SI7006_RH_Raw    Tag = iota
-	OA_SI7006_RH        Tag = iota
-	OA_MICS4514_VRED    Tag = iota
-	OA_MICS4514_VOX     Tag = iota
-	OA_SI7006_Temp_Test Tag = 0x80000000
-	OA_SI7006_RH_Test   Tag = 0x80000001
-	OA_Network_Events   Tag = math.MaxUint32
-	OA_AlphaCalc_1      Tag = OA_Network_Events - 1
-	OA_AlphaCalc_2      Tag = OA_Network_Events - 2
-	OA_AlphaCalc_3      Tag = OA_Network_Events - 3
-	OA_AlphaCalc_4      Tag = OA_Network_Events - 4
+	OA_Time              Tag = iota
+	OA_Alpha_1           Tag = iota
+	OA_Alpha_2           Tag = iota
+	OA_Alpha_3           Tag = iota
+	OA_Alpha_4           Tag = iota
+	OA_Alpha_5           Tag = iota
+	OA_Alpha_6           Tag = iota
+	OA_Alpha_7           Tag = iota
+	OA_Alpha_8           Tag = iota
+	OA_BME0_Pressure_Raw Tag = iota
+	OA_BME0_Pressure     Tag = iota
+	OA_BME0_Temp_Raw     Tag = iota
+	OA_BME0_Temp         Tag = iota
+	OA_BME0_Humidity_Raw Tag = iota
+	OA_BME0_Humidity     Tag = iota
+	OA_BME1_Pressure_Raw Tag = iota
+	OA_BME1_Pressure     Tag = iota
+	OA_BME1_Temp_Raw     Tag = iota
+	OA_BME1_Temp         Tag = iota
+	OA_BME1_Humidity_Raw Tag = iota
+	OA_BME1_Humidity     Tag = iota
+	OA_SDS_PM25          Tag = iota
+	OA_SDS_PM10          Tag = iota
+	OA_SI7006_Temp_Raw   Tag = iota
+	OA_SI7006_Temp       Tag = iota
+	OA_SI7006_RH_Raw     Tag = iota
+	OA_SI7006_RH         Tag = iota
+	OA_MICS4514_VRED     Tag = iota
+	OA_MICS4514_VOX      Tag = iota
+	OA_Network_Events    Tag = math.MaxUint32
+	OA_AlphaCalc_1       Tag = OA_Network_Events - 1
+	OA_AlphaCalc_2       Tag = OA_Network_Events - 2
+	OA_AlphaCalc_3       Tag = OA_Network_Events - 3
+	OA_AlphaCalc_4       Tag = OA_Network_Events - 4
 )
 
 const (
@@ -66,34 +70,42 @@ func (t Tag) String() string {
 		return "OA_Alpha_7"
 	case OA_Alpha_8:
 		return "OA_Alpha_8"
-	case OA_BME_Pressure_Raw:
-		return "OA_BME_Pressure_Raw"
-	case OA_BME_Pressure:
-		return "OA_BME_Pressure"
-	case OA_BME_Temp_Raw:
-		return "OA_BME_Temp_Raw"
-	case OA_BME_Temp:
-		return "OA_BME_Temp"
-	case OA_BME_Humidity_Raw:
-		return "OA_BME_Humidity_Raw"
-	case OA_BME_Humidity:
-		return "OA_BME_Humidity"
-	case OA_BME_SDS_PM25:
-		return "OA_BME_SDS_PM25"
-	case OA_BME_SDS_PM10:
-		return "OA_BME_SDS_PM10"
+	case OA_BME0_Pressure_Raw:
+		return "OA_BME0_Pressure_Raw"
+	case OA_BME0_Pressure:
+		return "OA_BME0_Pressure"
+	case OA_BME0_Temp_Raw:
+		return "OA_BME0_Temp_Raw"
+	case OA_BME0_Temp:
+		return "OA_BME0_Temp"
+	case OA_BME0_Humidity_Raw:
+		return "OA_BME0_Humidity_Raw"
+	case OA_BME0_Humidity:
+		return "OA_BME0_Humidity"
+	case OA_BME1_Pressure_Raw:
+		return "OA_BME1_Pressure_Raw"
+	case OA_BME1_Pressure:
+		return "OA_BME1_Pressure"
+	case OA_BME1_Temp_Raw:
+		return "OA_BME1_Temp_Raw"
+	case OA_BME1_Temp:
+		return "OA_BME1_Temp"
+	case OA_BME1_Humidity_Raw:
+		return "OA_BME1_Humidity_Raw"
+	case OA_BME1_Humidity:
+		return "OA_BME1_Humidity"
+	case OA_SDS_PM25:
+		return "OA_BME1_SDS_PM25"
+	case OA_SDS_PM10:
+		return "OA_BME1_SDS_PM10"
 	case OA_SI7006_Temp_Raw:
 		return "OA_SI7006_Temp_Raw"
-	case OA_SI7006_Temp_Test:
-		return "OA_SI7006_Temp_Test"
 	case OA_SI7006_Temp:
 		return "OA_SI7006_Temp"
 	case OA_SI7006_RH_Raw:
 		return "OA_SI7006_RH_Raw"
 	case OA_SI7006_RH:
 		return "OA_SI7006_RH"
-	case OA_SI7006_RH_Test:
-		return "OA_SI7006_RH_Test"
 	case OA_MICS4514_VRED:
 		return "OA_MICS4514_VRED"
 	case OA_MICS4514_VOX:
@@ -140,38 +152,46 @@ func AnnotateValue(m Msg) string {
 		fallthrough
 	case OA_Alpha_8:
 		fallthrough
-	case OA_BME_Pressure_Raw:
+	case OA_BME0_Pressure_Raw:
 		fallthrough
-	case OA_BME_Temp_Raw:
+	case OA_BME0_Temp_Raw:
 		fallthrough
-	case OA_BME_Humidity_Raw:
+	case OA_BME0_Humidity_Raw:
+		fallthrough
+	case OA_BME1_Pressure_Raw:
+		fallthrough
+	case OA_BME1_Temp_Raw:
+		fallthrough
+	case OA_BME1_Humidity_Raw:
 		fallthrough
 	case OA_SI7006_Temp_Raw:
 		fallthrough
 	case OA_SI7006_RH_Raw:
 		return fmt.Sprintf("(raw %d)", m.Value)
-	case OA_BME_Pressure:
+	case OA_BME0_Pressure:
+		fallthrough
+	case OA_BME1_Pressure:
 		hPa := float64(m.Value) / 100.0
 		return fmt.Sprintf("%.2f hPa", hPa)
-	case OA_BME_Temp:
+	case OA_BME0_Temp:
+		fallthrough
+	case OA_BME1_Temp:
 		temp := float64(m.Value)/1000.0 - 273.15
 		return fmt.Sprintf("%.2f C", temp)
-	case OA_SI7006_Temp_Test:
-		fallthrough
 	case OA_SI7006_Temp:
 		temp := float64(m.Value) / 1000.0
 		return fmt.Sprintf("%.2f C", temp)
-	case OA_BME_Humidity:
+	case OA_BME0_Humidity:
 		fallthrough
-	case OA_SI7006_RH_Test:
+	case OA_BME1_Humidity:
 		fallthrough
 	case OA_SI7006_RH:
 		hum := float64(m.Value) / 100.0
 		return fmt.Sprintf("%.2f %%RH", hum)
-	case OA_BME_SDS_PM25:
+	case OA_SDS_PM25:
 		pm25 := float64(m.Value) / 1000.0
 		return fmt.Sprintf("%.2f ug/m3", pm25)
-	case OA_BME_SDS_PM10:
+	case OA_SDS_PM10:
 		pm10 := float64(m.Value) / 1000.0
 		return fmt.Sprintf("%.2f ug/m3", pm10)
 	case OA_MICS4514_VRED:
