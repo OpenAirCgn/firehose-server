@@ -2,6 +2,7 @@ package firehose_server
 
 import (
 	"encoding/csv"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"strconv"
@@ -25,6 +26,45 @@ func NewCSVWriter(w io.Writer, ch <-chan Msg) *CSVMsgWriter {
 func uInt32ToA(v uint32) string {
 	return strconv.FormatInt(int64(v), 10)
 }
+
+func hexToSignedInt32(hexS string) int32 {
+	// there has to be a better way, but it's late.
+	bs, err := hex.DecodeString(hexS)
+	if err != nil {
+		println(err)
+	}
+	var i int32 = 0
+	for _, b := range bs {
+		i <<= 8
+		i = i + int32(b)
+	}
+	return i
+}
+
+func isAlpha(tag Tag) bool {
+	switch tag {
+	case OA_Alpha_1:
+		fallthrough
+	case OA_Alpha_2:
+		fallthrough
+	case OA_Alpha_3:
+		fallthrough
+	case OA_Alpha_4:
+		fallthrough
+	case OA_Alpha_5:
+		fallthrough
+	case OA_Alpha_6:
+		fallthrough
+	case OA_Alpha_7:
+		fallthrough
+	case OA_Alpha_8:
+		return true
+	default:
+		return false
+
+	}
+}
+
 func getRecord(msg Msg) []string {
 
 	_time := time.Now().Unix()
@@ -34,6 +74,13 @@ func getRecord(msg Msg) []string {
 	tag := fmt.Sprintf("0x%08x", uint32(msg.Tag))
 	valueHex := fmt.Sprintf("0x%08x", msg.Value)
 	valueDec := fmt.Sprintf("%d", msg.Value)
+
+	// stupid hackaround: values are transmitted as unsigned values,
+	// convert alphasense values to hex then back to signed.
+
+	if isAlpha(msg.Tag) {
+		valueDec = fmt.Sprintf("%d", hexToSignedInt32(valueHex[2:]))
+	}
 
 	tag_annotation := msg.Tag.String()
 	value_annotation := AnnotateValue(msg)
