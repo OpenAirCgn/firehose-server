@@ -75,11 +75,10 @@ In addition to the tagged data received from the OpenAir Device, the firehose-se
 Tag | Description
 ----|------------
 OA_Network_Events | Value CONNECT and DISCONNECT signify time the OpenAir device established a connection or the connection was lost.
-OA_AlphaCalc_1 … OA_Alpha_Calc_4 | Precalculated (server side) voltage of the ADC reading. This value is calculated by the formula:
+OA_AlphaCalc_1 … OA_Alpha_Calc_4 | Precalculated (server side) voltage of the ADC reading. 
 
-````
-V = (ALPHA(X-1) - ALPHA(X)) * ADC_CONST
 
-For X in 2, 4, 6, 8
-ADC_CONST = 0.000031356811523
-````
+## Simulator
+
+This repository also contains an OpenAir Simulator for testing the firehose server without using a physical OpenAir device. It is located under `cmd/simulator/openair.go`
+
