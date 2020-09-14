@@ -9,40 +9,43 @@ type Tag uint32
 type NetworkEvent uint32
 
 const (
-	OA_Time              Tag = iota
-	OA_Alpha_1           Tag = iota
-	OA_Alpha_2           Tag = iota
-	OA_Alpha_3           Tag = iota
-	OA_Alpha_4           Tag = iota
-	OA_Alpha_5           Tag = iota
-	OA_Alpha_6           Tag = iota
-	OA_Alpha_7           Tag = iota
-	OA_Alpha_8           Tag = iota
-	OA_BME0_Pressure_Raw Tag = iota
-	OA_BME0_Pressure     Tag = iota
-	OA_BME0_Temp_Raw     Tag = iota
-	OA_BME0_Temp         Tag = iota
-	OA_BME0_Humidity_Raw Tag = iota
-	OA_BME0_Humidity     Tag = iota
-	OA_BME1_Pressure_Raw Tag = iota
-	OA_BME1_Pressure     Tag = iota
-	OA_BME1_Temp_Raw     Tag = iota
-	OA_BME1_Temp         Tag = iota
-	OA_BME1_Humidity_Raw Tag = iota
-	OA_BME1_Humidity     Tag = iota
-	OA_SDS_PM25          Tag = iota
-	OA_SDS_PM10          Tag = iota
-	OA_SI7006_Temp_Raw   Tag = iota
-	OA_SI7006_Temp       Tag = iota
-	OA_SI7006_RH_Raw     Tag = iota
-	OA_SI7006_RH         Tag = iota
-	OA_MICS4514_VRED     Tag = iota
-	OA_MICS4514_VOX      Tag = iota
-	OA_Network_Events    Tag = math.MaxUint32
-	OA_AlphaCalc_1       Tag = OA_Network_Events - 1
-	OA_AlphaCalc_2       Tag = OA_Network_Events - 2
-	OA_AlphaCalc_3       Tag = OA_Network_Events - 3
-	OA_AlphaCalc_4       Tag = OA_Network_Events - 4
+	OA_Time                Tag = iota
+	OA_Alpha_1             Tag = iota
+	OA_Alpha_2             Tag = iota
+	OA_Alpha_3             Tag = iota
+	OA_Alpha_4             Tag = iota
+	OA_Alpha_5             Tag = iota
+	OA_Alpha_6             Tag = iota
+	OA_Alpha_7             Tag = iota
+	OA_Alpha_8             Tag = iota
+	OA_BME0_Pressure_Raw   Tag = iota
+	OA_BME0_Pressure       Tag = iota
+	OA_BME0_Temp_Raw       Tag = iota
+	OA_BME0_Temp           Tag = iota
+	OA_BME0_Humidity_Raw   Tag = iota
+	OA_BME0_Humidity       Tag = iota
+	OA_BME1_Pressure_Raw   Tag = iota
+	OA_BME1_Pressure       Tag = iota
+	OA_BME1_Temp_Raw       Tag = iota
+	OA_BME1_Temp           Tag = iota
+	OA_BME1_Humidity_Raw   Tag = iota
+	OA_BME1_Humidity       Tag = iota
+	OA_SDS_PM25            Tag = iota
+	OA_SDS_PM10            Tag = iota
+	OA_SI7006_Temp_Raw     Tag = iota
+	OA_SI7006_Temp         Tag = iota
+	OA_SI7006_RH_Raw       Tag = iota
+	OA_SI7006_RH           Tag = iota
+	OA_MICS4514_VRED       Tag = iota
+	OA_MICS4514_VOX        Tag = iota
+	OA_NOISE_DBA           Tag = iota
+	OA_NOISE_DBC           Tag = iota
+	OA_FINAL_SPECIAL_GUARD Tag = iota
+	OA_Network_Events      Tag = math.MaxUint32
+	OA_AlphaCalc_1         Tag = OA_Network_Events - 1
+	OA_AlphaCalc_2         Tag = OA_Network_Events - 2
+	OA_AlphaCalc_3         Tag = OA_Network_Events - 3
+	OA_AlphaCalc_4         Tag = OA_Network_Events - 4
 )
 
 const (
