@@ -6,7 +6,7 @@
 
 VERSION=`git describe --tags`
 DATE=`date +%Y%m%d`
-LDFLAGS="-X main.version=${VERSION}${DATE}"
+LDFLAGS="-X main.version=${VERSION}_${DATE}"
 
 for os in darwin linux windows; do
 	GOOS=${os} GOARCH=amd64 go build -ldflags "${LDFLAGS}" -o firehose.${VERSION}.${os} cmd/firehose/firehose.go 
