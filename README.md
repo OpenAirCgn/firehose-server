@@ -15,19 +15,26 @@ The software is a command line program with the following options
 
 ````
 $ ./firehose -help
-
 Usage of ./firehose:
-  -a string
-  -addr string
-        address for server to listen on (default ":7531")
-
-  -h    
-  -help
-        print usage
-
-  -o string
-  -outfile string
-        filename to save output to (default "-")
+  -a string
+    	address for server to listen on (default ":7531")
+  -addr string
+    	address for server to listen on (default ":7531")
+  -csvAgeMinutes int
+    	after how many minutes to rotate the csv file (default 10)
+  -dateDir
+    	rotate logs into YYYY/MM/DD directory structure
+  -h	print usage
+  -help
+    	print usage
+  -o string
+    	filename to save output to (default "-")
+  -outfile string
+    	filename to save output to (default "-")
+  -printIP
+    	print IP Address(es) of host
+  -version
+    	print version banner and exit
 
 ````
 

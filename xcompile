@@ -1,9 +1,0 @@
-for os in darwin linux windows; do
-	GOOS=${os} GOARCH=amd64 go build -o firehose.${os} cmd/firehose/firehose.go 
-	GOOS=${os} GOARCH=amd64 go build -o oa_sim.${os} cmd/simulator/openair.go
-done
-
-# build raspberry pi version
-
-GOOS=linux GOARCH=arm GOARM=5 go build -o firehose.raspi cmd/firehose/firehose.go
-GOOS=linux GOARCH=arm GOARM=5 go build -o oa_sim.raspi cmd/simulator/openair.go

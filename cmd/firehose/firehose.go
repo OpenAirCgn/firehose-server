@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"strings"
+	"time"
 
 	firehose "github.com/openaircgn/firehose_server"
 )
@@ -14,6 +15,12 @@ var outfile string
 var addr string
 var help bool
 var printIP bool
+var printVersion bool
+var useDateTree bool
+
+var logrotationIntervalMinutes int
+
+var version string = "unknown" // set by linker, see xcompile.sh
 
 const (
 	defaultAddr    = ":7531"
@@ -29,6 +36,11 @@ func init() {
 	flag.BoolVar(&help, "h", false, "print usage")
 	flag.BoolVar(&help, "help", false, "print usage")
 	flag.BoolVar(&printIP, "printIP", false, "print IP Address(es) of host")
+	flag.BoolVar(&printVersion, "version", false, "print version banner and exit")
+	flag.BoolVar(&useDateTree, "dateDir", false, "rotate logs into YYYY/MM/DD directory structure")
+
+	flag.IntVar(&logrotationIntervalMinutes, "csvAgeMinutes", 10, "after how many minutes to rotate the csv file")
+
 }
 
 func addrs() []string {
@@ -86,21 +98,34 @@ func main() {
 	if outfile == defaultOutFile {
 		w = firehose.NewCSVWriter(os.Stdout, msgChan)
 	} else {
-		f, err := os.OpenFile(outfile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		//f, err := os.OpenFile(outfile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		writer := firehose.Logrotation{
+			BaseFilename: outfile,
+			UseDateTree:  useDateTree,
+			Interval:     time.Duration(logrotationIntervalMinutes) * time.Minute,
+		}
+		banner := fmt.Sprintf("# Firehose ver: %s Starttime: %v\n", version, time.Now())
+		_, err := writer.Write([]byte(banner))
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%v\n", err)
 			flag.Usage()
 			os.Exit(1)
 		}
-		defer f.Close()
-		w = firehose.NewCSVWriter(f, msgChan)
+		defer writer.Close()
+		w = firehose.NewCSVWriter(&writer, msgChan)
 	}
 	server := firehose.TCPServer{
 		Address: addr,
 		MsgChan: msgChan,
 	}
 
-	println("Welcome to Firehose! Press Ctl-c to end")
+	fmt.Printf("Welcome to Firehose(%s)!", version)
+	if printVersion {
+		println()
+		os.Exit(0)
+	}
+
+	fmt.Printf("Listening on: %s. Press Ctl-c to end\n", addr)
 
 	go server.Run(doneChan)
 	go w.Run(doneChan)
