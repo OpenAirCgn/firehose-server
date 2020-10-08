@@ -82,17 +82,18 @@ func getRecord(msg Msg) []string {
 		valueDec = fmt.Sprintf("%d", hexToSignedInt32(valueHex[2:]))
 	}
 
-	tag_annotation := msg.Tag.String()
-	value_annotation := AnnotateValue(msg)
+	tagAnnotation := msg.Tag.String()
+	valueAnnotation := AnnotateValue(msg)
 
 	return []string{
-		time, ts, dev, tag, valueHex, valueDec, tag_annotation, value_annotation,
+		time, ts, dev, tag, valueHex, valueDec, tagAnnotation, valueAnnotation,
 	}
 }
 func (w *CSVMsgWriter) DumpCSV(msg Msg) {
 	record := getRecord(msg)
 	w.writer.Write(record)
 	w.handleAlphaAnnotation(msg)
+	w.writer.Flush()
 }
 
 const adc2v = 0.000031356811523
