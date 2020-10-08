@@ -9,6 +9,10 @@ import (
 	"time"
 )
 
+// skip unknown tag value per Default, but allow
+// the possibility to dump everything
+var DontSkipUnknown bool
+
 type MsgWriter func(Msg)
 
 type CSVMsgWriter struct {
@@ -90,59 +94,12 @@ func getRecord(msg Msg) []string {
 	}
 }
 func (w *CSVMsgWriter) DumpCSV(msg Msg) {
-	record := getRecord(msg)
-	w.writer.Write(record)
-	w.handleAlphaAnnotation(msg)
-	w.writer.Flush()
-}
-
-const adc2v = 0.000031356811523
-
-var last_alpha1 int64
-var last_alpha3 int64
-var last_alpha5 int64
-var last_alpha7 int64
-
-func (w *CSVMsgWriter) handleAlphaAnnotation(msg Msg) {
-	var alpha float64
-	var tag Tag
-
-	switch msg.Tag {
-	case OA_Alpha_1:
-		last_alpha1 = int64(msg.Value)
-		return
-	case OA_Alpha_2:
-		// ignore corner case that last_alpha1 is not set
-		alpha = float64(last_alpha1-int64(msg.Value)) * adc2v
-		tag = OA_AlphaCalc_1
-	case OA_Alpha_3:
-		last_alpha3 = int64(msg.Value)
-		return
-	case OA_Alpha_4:
-		alpha = float64(last_alpha3-int64(msg.Value)) * adc2v
-		tag = OA_AlphaCalc_2
-	case OA_Alpha_5:
-		last_alpha5 = int64(msg.Value)
-		return
-	case OA_Alpha_6:
-		alpha = float64(last_alpha5-int64(msg.Value)) * adc2v
-		tag = OA_AlphaCalc_3
-	case OA_Alpha_7:
-		last_alpha7 = int64(msg.Value)
-		return
-	case OA_Alpha_8:
-		alpha = float64(last_alpha7-int64(msg.Value)) * adc2v
-		tag = OA_AlphaCalc_4
-	default:
+	if !DontSkipUnknown && msg.Tag.Unknown() {
 		return
 	}
-
-	msg.Tag = tag
-	msg.Value = 0
-
 	record := getRecord(msg)
-	record[len(record)-1] = fmt.Sprintf("%f V (derived)", alpha)
 	w.writer.Write(record)
+	w.writer.Flush()
 }
 
 func (w *CSVMsgWriter) Run(doneChan chan<- bool) {

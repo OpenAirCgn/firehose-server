@@ -42,16 +42,19 @@ const (
 	OA_NOISE_DBC           Tag = iota
 	OA_FINAL_SPECIAL_GUARD Tag = iota
 	OA_Network_Events      Tag = math.MaxUint32
-	OA_AlphaCalc_1         Tag = OA_Network_Events - 1
-	OA_AlphaCalc_2         Tag = OA_Network_Events - 2
-	OA_AlphaCalc_3         Tag = OA_Network_Events - 3
-	OA_AlphaCalc_4         Tag = OA_Network_Events - 4
 )
 
 const (
 	CONNECT    NetworkEvent = iota
 	DISCONNECT NetworkEvent = iota
 )
+
+func (t Tag) Unknown() bool {
+	if t >= OA_FINAL_SPECIAL_GUARD && t != OA_Network_Events {
+		return true
+	}
+	return false
+}
 
 func (t Tag) String() string {
 	switch t {
@@ -115,14 +118,6 @@ func (t Tag) String() string {
 		return "OA_MICS4514_VOX"
 	case OA_Network_Events:
 		return "OA_Network_Events"
-	case OA_AlphaCalc_1:
-		return "OA_AlphaCalc_1"
-	case OA_AlphaCalc_2:
-		return "OA_AlphaCalc_2"
-	case OA_AlphaCalc_3:
-		return "OA_AlphaCalc_3"
-	case OA_AlphaCalc_4:
-		return "OA_AlphaCalc_4"
 	default:
 		return "UNKNOWN TAG"
 	}
@@ -210,14 +205,6 @@ func AnnotateValue(m Msg) string {
 		default:
 			return "UNKNOWN NETWORK EVENT"
 		}
-	case OA_AlphaCalc_1:
-		fallthrough
-	case OA_AlphaCalc_2:
-		fallthrough
-	case OA_AlphaCalc_3:
-		fallthrough
-	case OA_AlphaCalc_4:
-		return "derived (V)"
 	default:
 		return "UNKNOWN TAG"
 
