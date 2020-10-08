@@ -26,7 +26,7 @@ func generatePacket() []byte {
 	msg := fh.Msg{}
 	msg.Timestamp = uint32(time.Since(startTime) * time.Second)
 	msg.DeviceId = deviceId
-	msg.Tag = fh.Tag(mrand.Int31n(int32(guard)))
+	msg.Tag = fh.Tag(mrand.Int31n(int32(guard + 1)))
 	msg.Value = mrand.Uint32()
 	bs, err := json.Marshal(msg)
 	if err != nil {

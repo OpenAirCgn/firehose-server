@@ -38,6 +38,7 @@ func init() {
 	flag.BoolVar(&printIP, "printIP", false, "print IP Address(es) of host")
 	flag.BoolVar(&printVersion, "version", false, "print version banner and exit")
 	flag.BoolVar(&useDateTree, "dateDir", false, "rotate logs into YYYY/MM/DD directory structure")
+	flag.BoolVar(&firehose.DontSkipUnknown, "dontSkipUnknown", false, "output value even if the tag is unknown")
 
 	flag.IntVar(&logrotationIntervalMinutes, "csvAgeMinutes", 10, "after how many minutes to rotate the csv file")
 
