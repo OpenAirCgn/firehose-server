@@ -16,9 +16,5 @@ fi
 for os in darwin linux windows; do
 	GOOS=${os} GOARCH=amd64 go build -ldflags "${LDFLAGS}" -o ${REL_DIR}/firehose.${VERSION}.${os} cmd/firehose/firehose.go 
 	GOOS=${os} GOARCH=amd64 go build -ldflags "${LDFLAGS}" -o ${REL_DIR}/oa_sim.${VERSION}.${os} cmd/simulator/openair.go
-	if [ $os = "linux" ]; then 
-		GOOS=${os} GOARCH=arm GOARM=5 go build -ldflags "${LDFLAGS}" -o ${REL_DIR}/firehose.${VERSION}.raspi cmd/firehose/firehose.go
-		GOOS=${os} GOARCH=arm GOARM=5 go build -ldflags "${LDFLAGS}" -o ${REL_DIR}/oa_sim.${VERSION}.raspi cmd/simulator/openair.go
-	fi
 done
 
