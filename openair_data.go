@@ -40,6 +40,17 @@ const (
 	OA_MICS4514_VOX        Tag = iota
 	OA_NOISE_DBA           Tag = iota
 	OA_NOISE_DBC           Tag = iota
+	OA_Alpha_1_ppb         Tag = iota // deprecated
+	OA_Alpha_2_ppb         Tag = iota // deprecated
+	OA_Alpha_3_ppb         Tag = iota // deprecated
+	OA_Alpha_4_ppb         Tag = iota // deprecated
+	OA_dba_1s              Tag = iota
+	OA_dba_5s              Tag = iota
+	OA_dba_10s             Tag = iota
+	OA_dba_30s             Tag = iota
+	OA_dba_1m              Tag = iota
+	OA_dba_3m              Tag = iota
+	OA_dba_5m              Tag = iota
 	OA_FINAL_SPECIAL_GUARD Tag = iota
 	OA_Network_Events      Tag = math.MaxUint32
 )
@@ -116,6 +127,28 @@ func (t Tag) String() string {
 		return "OA_MICS4514_VRED"
 	case OA_MICS4514_VOX:
 		return "OA_MICS4514_VOX"
+	case OA_Alpha_1_ppb:
+		return "OA_Alpha_1_ppb (deprecated)"
+	case OA_Alpha_2_ppb:
+		return "OA_Alpha_2_ppb (deprecated)"
+	case OA_Alpha_3_ppb:
+		return "OA_Alpha_3_ppb (deprecated)"
+	case OA_Alpha_4_ppb:
+		return "OA_Alpha_4_ppb (deprecated)"
+	case OA_dba_1s:
+		return "OA_dba_1s"
+	case OA_dba_5s:
+		return "OA_dba_5s"
+	case OA_dba_10s:
+		return "OA_dba_10s"
+	case OA_dba_30s:
+		return "OA_dba_30s"
+	case OA_dba_1m:
+		return "OA_dba_1m"
+	case OA_dba_3m:
+		return "OA_dba_3m"
+	case OA_dba_5m:
+		return "OA_dba_5m"
 	case OA_Network_Events:
 		return "OA_Network_Events"
 	default:
