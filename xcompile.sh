@@ -6,18 +6,14 @@
 
 VERSION=`git describe --tags`
 DATE=`date +%Y%m%d`
-LDFLAGS="-X main.version=${VERSION}${DATE}"
+LDFLAGS="-X main.version=${VERSION}_${DATE}"
 
 for os in darwin linux windows; do
 	GOOS=${os} GOARCH=amd64 go build -ldflags "${LDFLAGS}" -o firehose.${VERSION}.${os} cmd/firehose/firehose.go 
 	GOOS=${os} GOARCH=amd64 go build -ldflags "${LDFLAGS}" -o oa_sim.${VERSION}.${os} cmd/simulator/openair.go
-	if [ $os = "linux" ]; then 
+	if [ $os == "linux" ]; then 
 GOOS=${os} GOARCH=arm GOARM=5 go build -ldflags "${LDFLAGS}" -o firehose.${VERSION}.raspi cmd/firehose/firehose.go
 GOOS=${os} GOARCH=arm GOARM=5 go build -ldflags "${LDFLAGS}" -o oa_sim.${VERSION}.raspi cmd/simulator/openair.go
 	fi
 done
 
-# build raspberry pi version
-
-GOOS=linux GOARCH=arm GOARM=5 go build -ldflags "${LDFLAGS}" -o firehose.raspi cmd/firehose/firehose.go
-GOOS=linux GOARCH=arm GOARM=5 go build -ldflags "${LDFLAGS}" -o oa_sim.raspi cmd/simulator/openair.go
